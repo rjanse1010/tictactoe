@@ -27,6 +27,8 @@ if(allLinks && window.location.search != "") {
 	}
 }
 
+const mainEl = document.querySelector("main");
+
 /**
  * To start:
  * Check index.html, make sure the board with fields are created with correct classnames
@@ -173,10 +175,11 @@ function playAgainPrompt(type) {
 	if(playAgain) {
 		resetGame();
 	} else {
-		if(srcURL) {
+		if(srcURL && !(srcURL.startsWith("file://") && !window.location.href.startsWith("file://"))) {
 			window.location.href = srcURL;
 		} else {
-			document.body.classList.add("hidden"); //TODO: add hidden display:none in CSS
+			mainEl.classList.add("hidden");
+			resetButton.classList.add("hidden");
 		}
 	}
 }
