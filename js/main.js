@@ -4,6 +4,7 @@ import Player from "./Player.js";
 const allLinks = document.querySelectorAll("a");
 const backButtonEl = document.querySelector(".back_button");
 
+let srcURL;
 if(allLinks && window.location.search != "") {
 	allLinks.forEach(function(element) {
 		if(element != backButtonEl && !element.getAttribute("href").startsWith("#")) { //Don't change the back button url and don't change anchor links
@@ -12,7 +13,7 @@ if(allLinks && window.location.search != "") {
 	});
 	const searchParams = new URL(location.href).searchParams;
 	const srcName = searchParams.get('srcname');
-	const srcURL = searchParams.get('src');
+	srcURL = searchParams.get('src');
 	if(srcName && srcURL) {
 		backButtonEl.innerHTML = "<i class='fas fa-long-arrow-alt-left'></i> Terug naar " + srcName;
 		if(srcURL.startsWith("file://") && !window.location.href.startsWith("file://")) {
@@ -172,7 +173,11 @@ function playAgainPrompt(type) {
 	if(playAgain) {
 		resetGame();
 	} else {
-		document.body.classList.add("hidden"); //TODO: add hidden display:none in CSS
+		if(srcURL) {
+			window.location.href = srcURL;
+		} else {
+			document.body.classList.add("hidden"); //TODO: add hidden display:none in CSS
+		}
 	}
 }
 
